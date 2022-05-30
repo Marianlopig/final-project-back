@@ -1,9 +1,5 @@
 node_modules
 .vscode
-mongodb
 .env
 .DS_Store
 coverage
-images
-tmp_images
-package-lock.json
