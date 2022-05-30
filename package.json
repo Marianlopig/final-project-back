@@ -1,5 +1,5 @@
 {
-  "name": "final-back",
+  "name": "back",
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
@@ -7,7 +7,7 @@
     "start-dev": "nodemon src -q",
     "prepare": "husky install",
     "test": "jest --watchAll=false",
-    "test-coverage": "jest --coverage --watchAll=false --passWithNoTests=true"
+    "test-coverage": "jest --coverage --watchAll=false"
   },
   "keywords": [],
   "author": "",
