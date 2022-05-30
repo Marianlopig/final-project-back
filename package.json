@@ -6,8 +6,8 @@
     "start": "node src",
     "start-dev": "nodemon src -q",
     "prepare": "husky install",
-    "test": "jest --watchAll=false --passWithNoTests=true",
-    "test-coverage": "jest --coverage --watchAll=false"
+    "test": "jest --watchAll=false",
+    "test-coverage": "jest --coverage --watchAll=false --passWithNoTests=true"
   },
   "keywords": [],
   "author": "",
