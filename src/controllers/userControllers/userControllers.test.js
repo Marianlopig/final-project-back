@@ -1,73 +1,78 @@
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../../database/models/User");
 const userLogin = require("./userControllers");
 
-const mocktoken = "123";
 const mockNewUser = {
-  _id: 3,
-  username: "Pepita",
-  password: "password",
+  name: "Silvi",
+  username: "silvi",
+  password: "11111",
+  _id: "sdjdksfwe54",
 };
 
-jest.mock("jsonwebtoken", () => ({
-  sign: () => mocktoken,
-}));
+const expectedToken = "aaaa";
+
 jest.mock("../../database/models/User", () => ({
   findOne: jest.fn(),
-  find: jest.fn(),
   create: jest.fn(() => mockNewUser),
 }));
-jest.mock("bcrypt", () => ({
-  compare: jest.fn(),
-  hash: jest.fn(),
-}));
 
-describe("Given a userLogin function", () => {
-  describe("When it is called", () => {
-    test("Then it should call the response method with status 200 and the returned value should be the token", async () => {
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
-      };
+jest.mock("bcrypt", () => ({ compare: jest.fn(), hash: jest.fn() }));
 
-      User.findOne.mockImplementation(() => true);
-      bcrypt.compare.mockImplementation(() => true);
+describe("Given a loginUser function", () => {
+  const req = {
+    body: {
+      username: "Marian",
+      password: "marian",
+    },
+  };
 
-      const req = {
-        body: {
-          username: "Pepita",
-          password: "password",
-        },
-      };
+  const res = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+
+  describe("When invoked with a req object with the correct username and password", () => {
+    User.findOne = jest.fn().mockResolvedValue(true);
+    bcrypt.compare = jest.fn().mockResolvedValue(true);
+    jwt.sign = jest.fn().mockReturnValue(expectedToken);
+
+    test("Then it should call res status method status with 200", async () => {
       const expectedStatus = 200;
 
       await userLogin(req, res);
 
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
-      expect(res.json).toHaveBeenCalledWith({ token: mocktoken });
+    });
+    test("Then it should call the res json method with an object with the generated token like property", async () => {
+      await userLogin(req, res);
+
+      expect(res.json).toHaveBeenCalledWith({ token: expectedToken });
     });
   });
 
-  describe("When it is called with a non existing user", () => {
-    test("Then it should call the response method with status 401 and a json msg bad request", async () => {
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
-      };
-      User.findOne.mockImplementation(() => false);
+  describe("When invoked with a req object with an incorrect username", () => {
+    test("Then it should call the next function", async () => {
+      const next = jest.fn();
 
-      const req = {
-        body: {
-          username: "Pepita",
-          password: "password",
-        },
-      };
-      const expectedStatus = 401;
+      User.findOne = jest.fn().mockResolvedValue(false);
 
-      await userLogin(req, res);
+      await userLogin(req, res, next);
 
-      expect(res.status).toHaveBeenCalledWith(expectedStatus);
-      expect(res.json).toHaveBeenCalledWith({ msg: "bad request" });
+      expect(next).toHaveBeenCalled();
+    });
+  });
+
+  describe("When invoked with a req object with a correct username and a wrong password", () => {
+    test("Then it should call the next function", async () => {
+      const next = jest.fn();
+
+      User.findOne = jest.fn().mockResolvedValue(true);
+      bcrypt.compare = jest.fn().mockResolvedValue(false);
+
+      await userLogin(req, res, next);
+
+      expect(next).toHaveBeenCalled();
     });
   });
 });
