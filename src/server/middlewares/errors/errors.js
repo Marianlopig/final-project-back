@@ -13,7 +13,7 @@ const notFoundError = (req, res, next) => {
 // eslint-disable-next-line no-unused-vars
 const generalError = (error, req, res, next) => {
   debug(chalk.red(error.message || error.customMessage));
-  let message = error.customMessage ?? "General pete";
+  let message = error.customMessage ?? "General error";
   const statusCode = error.statusCode ?? 500;
 
   if (error instanceof ValidationError) {
