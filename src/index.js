@@ -1,5 +1,5 @@
 require("dotenv").config();
-const debug = require("debug")("gamersland:root");
+const debug = require("debug")("columpia:root");
 
 const chalk = require("chalk");
 const connectDB = require("./database");

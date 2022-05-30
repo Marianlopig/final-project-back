@@ -1,5 +1,5 @@
 require("dotenv").config();
-const debug = require("debug")("gamersland:server:initializeServer");
+const debug = require("debug")("columpima:server:initializeServer");
 const chalk = require("chalk");
 const app = require(".");
 

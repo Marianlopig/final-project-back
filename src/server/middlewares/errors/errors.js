@@ -1,5 +1,5 @@
 require("dotenv").config();
-const debug = require("debug")("gamersland:server:middlewares:errors");
+const debug = require("debug")("columpia:server:middlewares:errors:errors");
 const chalk = require("chalk");
 const { ValidationError } = require("express-validation");
 const customError = require("../../../utils/customError");
