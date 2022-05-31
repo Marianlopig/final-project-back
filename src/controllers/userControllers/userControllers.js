@@ -1,13 +1,14 @@
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
+const sanitize = require("mongo-sanitize");
 const User = require("../../database/models/User");
 const customError = require("../../utils/customError");
 
 const userLogin = async (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password } = sanitize(req.body);
 
-  const user = await User.findOne({ username: `${username}` });
+  const user = await User.findOne({ username });
 
   if (!user) {
     const error = customError(403, "Bad request", "User or password incorrect");

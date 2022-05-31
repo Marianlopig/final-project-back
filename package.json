@@ -32,6 +32,7 @@
     "jest": "^28.1.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
+    "mongo-sanitize": "^1.1.0",
     "mongodb-memory-server": "^8.5.2",
     "mongoose": "^6.3.4",
     "morgan": "^1.10.0",
