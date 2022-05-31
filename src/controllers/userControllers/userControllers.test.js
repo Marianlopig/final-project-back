@@ -117,7 +117,7 @@ describe("Given a register user function", () => {
       await userRegister(req, res, mockNext);
       const expectedError = new Error();
       expectedError.code = 409;
-      expectedError.message = "This user already exists...";
+      expectedError.customMessage = "This user already exists...";
 
       expect(mockNext).toHaveBeenCalledWith(expectedError);
     });

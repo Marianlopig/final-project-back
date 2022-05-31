@@ -7,7 +7,7 @@ const customError = require("../../utils/customError");
 const userLogin = async (req, res, next) => {
   const { username, password } = req.body;
 
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username: `${username}` });
 
   if (!user) {
     const error = customError(403, "Bad request", "User or password incorrect");
@@ -32,28 +32,31 @@ const userLogin = async (req, res, next) => {
 };
 
 const userRegister = async (req, res, next) => {
-  const { name, username, password } = req.body;
+  const { name, username, password, city, email } = req.body;
   const user = await User.findOne({ username });
 
   if (user) {
-    const error = new Error();
-    error.statusCode = 409;
-    error.message = "This user already exists...";
+    const error = customError(409, "This user already exists...");
 
     next(error);
     return;
   }
   try {
     const encryptedPassword = await bcrypt.hash(password, 10);
-    const newUser = { name, username, password: encryptedPassword };
+    const newUser = {
+      name,
+      username,
+      password: encryptedPassword,
+      city,
+      email,
+    };
 
     await User.create(newUser);
 
     res.status(201).json({ username });
   } catch (error) {
-    error.statusCode = 400;
-    error.message = "Wrong user data..";
-    next(error);
+    const createdError = customError(400, "Wrong user data..", error.message);
+    next(createdError);
   }
 };
 
