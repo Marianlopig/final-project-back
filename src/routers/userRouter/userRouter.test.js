@@ -45,3 +45,36 @@ describe("Given a post /users/login endpoint", () => {
     });
   });
 });
+
+describe("Given a post /users/register endpoint", () => {
+  describe("When it receives a new user request", () => {
+    test("Then it should respond with a 201 status code and a username", async () => {
+      const response = await request(app)
+        .post("/users/register")
+        .send({
+          username: "Julia",
+          password: "password",
+          email: "test@test.com",
+        })
+        .expect(201);
+
+      expect(response.body.username).toBe("Julia");
+    });
+  });
+
+  describe("When it receives an already existing user request", () => {
+    test("Then it should respond with a 200 status code and a token", async () => {
+      const response = await request(app)
+        .post("/users/register")
+        .send({
+          username: "Marian",
+          password: "password",
+          email: "test@test.com",
+        })
+        .expect(409);
+
+      expect(response.body.error).toBe(true);
+      expect(response.body.message).toBe("This user already exists...");
+    });
+  });
+});
