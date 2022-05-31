@@ -7,7 +7,7 @@ const customError = require("../../utils/customError");
 const userLogin = async (req, res, next) => {
   const { username, password } = req.body;
 
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username: `${username}` });
 
   if (!user) {
     const error = customError(403, "Bad request", "User or password incorrect");
