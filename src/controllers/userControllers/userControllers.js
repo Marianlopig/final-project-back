@@ -6,30 +6,43 @@ const User = require("../../database/models/User");
 const customError = require("../../utils/customError");
 
 const userLogin = async (req, res, next) => {
-  const { username, password } = sanitize(req.body);
+  try {
+    const { username, password } = sanitize(req.body);
 
-  const user = await User.findOne({ username });
+    const user = await User.findOne({ username });
 
-  if (!user) {
-    const error = customError(403, "Bad request", "User or password incorrect");
+    if (!user) {
+      const error = customError(
+        403,
+        "Bad request",
+        "User or password incorrect"
+      );
+      next(error);
+      return;
+    }
+    const userData = {
+      username: user.username,
+      name: user.name,
+    };
+
+    const rightPassword = await bcrypt.compare(password, user.password);
+    if (!rightPassword) {
+      const error = customError(
+        403,
+        "Bad request",
+        "User or password incorrect"
+      );
+
+      next(error);
+      return;
+    }
+    const token = jsonwebtoken.sign(userData, process.env.JWT_SECRET);
+
+    res.status(200).json({ token });
+  } catch (e) {
+    const error = customError(500, "Internal server error", e.message);
     next(error);
-    return;
   }
-  const userData = {
-    username: user.username,
-    name: user.name,
-  };
-
-  const rightPassword = await bcrypt.compare(password, user.password);
-  if (!rightPassword) {
-    const error = customError(403, "Bad request", "User or password incorrect");
-
-    next(error);
-    return;
-  }
-  const token = jsonwebtoken.sign(userData, process.env.JWT_SECRET);
-
-  res.status(200).json({ token });
 };
 
 const userRegister = async (req, res, next) => {
@@ -57,6 +70,7 @@ const userRegister = async (req, res, next) => {
     res.status(201).json({ username });
   } catch (error) {
     const createdError = customError(400, "Wrong user data..", error.message);
+
     next(createdError);
   }
 };
