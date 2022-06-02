@@ -5,6 +5,6 @@ const {
 
 const parkRouter = express.Router();
 
-parkRouter.post("/list", getParks);
+parkRouter.get("/list", getParks);
 
 module.exports = parkRouter;

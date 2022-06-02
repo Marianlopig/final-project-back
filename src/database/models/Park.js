@@ -1,17 +1,14 @@
 const { Schema, model, SchemaTypes } = require("mongoose");
 
 const LocationSchema = new Schema({
-  name: String,
-  location: {
-    type: {
-      type: String,
-      enum: ["Point"],
-      required: true,
-    },
-    coordinates: {
-      type: [Number],
-      required: true,
-    },
+  type: {
+    type: String,
+    enum: ["Point"],
+    required: true,
+  },
+  coordinates: {
+    type: [Number],
+    required: true,
   },
 });
 
