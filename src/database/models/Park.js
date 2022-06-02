@@ -16,14 +16,12 @@ const LocationSchema = new Schema({
 });
 
 const ParkSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
+  name: { type: String, required: true },
   description: { type: String, required: true },
   photos: { type: [String], required: true },
-  location: { LocationSchema, required: true },
+  location: LocationSchema,
   characteristics: { type: [String] },
+  owner: { type: [String], required: true },
 });
 const Park = model("Park", ParkSchema, "parks");
 module.exports = Park;
