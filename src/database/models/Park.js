@@ -20,7 +20,7 @@ const ParkSchema = new Schema({
   description: { type: String, required: true },
   photos: { type: [String], required: true },
   location: LocationSchema,
-  characteristics: { type: [String] },
+  details: { type: [String] },
   owner: { type: SchemaTypes.ObjectId, ref: "users" },
 });
 const Park = model("Park", ParkSchema, "parks");
