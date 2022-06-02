@@ -6,21 +6,13 @@ const getParks = async (req, res, next) => {
     const parks = await Park.find();
 
     const parksRet = parks.map(
-      ({
-        _id: id,
-        name,
-        description,
-        photos,
-        location,
-        characteristics,
-        owner,
-      }) => ({
+      ({ _id: id, name, description, photos, location, details, owner }) => ({
         id,
         name,
         description,
         photos,
         location,
-        characteristics,
+        details,
         owner,
       })
     );
