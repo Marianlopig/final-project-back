@@ -36,8 +36,8 @@ describe("Given a getParks function", () => {
       const expectedResponse = {
         page: 0,
         pageSize: 10,
-        next: "",
-        previous: "",
+        next: undefined,
+        previous: undefined,
         total: 1,
         results: [
           {

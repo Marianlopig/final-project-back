@@ -25,12 +25,23 @@ const getParks = async (req, res, next) => {
         owner,
       })
     );
+    const domainUrl = process.env.DOMAIN_URL;
+
+    let nextPage = `${domainUrl}?page=${page + 1}&pageSize=${pageSize}`;
+    if (total / pageSize >= page) {
+      nextPage = undefined;
+    }
+
+    let prevPage;
+    if (page > 0) {
+      prevPage = `${domainUrl}?page=${page - 1}&pageSize=${pageSize}`;
+    }
 
     const response = {
       page,
       pageSize,
-      next: "",
-      previous: "",
+      next: nextPage,
+      previous: prevPage,
       total,
       results: parksRet,
     };
