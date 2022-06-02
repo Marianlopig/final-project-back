@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, SchemaTypes } = require("mongoose");
 
 const UserSchema = new Schema({
   name: {
@@ -20,6 +20,8 @@ const UserSchema = new Schema({
   city: {
     type: String,
   },
+  favParks: [{ type: SchemaTypes.ObjectId, ref: "parks" }],
+  ownParks: [{ type: SchemaTypes.ObjectId, ref: "parks" }],
 });
 const User = model("User", UserSchema, "users");
 module.exports = User;
