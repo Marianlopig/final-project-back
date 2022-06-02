@@ -20,30 +20,34 @@ describe("Given a getParks function", () => {
           description: "Un parque grande con muchas plantas",
           photos: ["photo.png"],
           location: {
-            name: "aqui",
-            type: "coordenadas",
-            coordinates: 46574,
+            type: "Point",
+            coordinates: [46574, 5478],
           },
           details: ["agua", "fuentes"],
           owner: "",
         },
       ]);
 
-      const expectedResponse = [
-        {
-          id: "1",
-          name: "Parque Bonito",
-          description: "Un parque grande con muchas plantas",
-          photos: ["photo.png"],
-          location: {
-            name: "aqui",
-            type: "coordenadas",
-            coordinates: 46574,
+      const expectedResponse = {
+        page: 0,
+        pageSize: 0,
+        next: "",
+        previous: "",
+        results: [
+          {
+            id: "1",
+            name: "Parque Bonito",
+            description: "Un parque grande con muchas plantas",
+            photos: ["photo.png"],
+            location: {
+              type: "Point",
+              coordinates: [46574, 5478],
+            },
+            details: ["agua", "fuentes"],
+            owner: "",
           },
-          details: ["agua", "fuentes"],
-          owner: "",
-        },
-      ];
+        ],
+      };
       const expectedStatus = 200;
 
       await getParks(null, res, null);

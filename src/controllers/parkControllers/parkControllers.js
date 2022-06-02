@@ -17,7 +17,15 @@ const getParks = async (req, res, next) => {
       })
     );
 
-    res.status(200).json(parksRet);
+    const response = {
+      page: 0,
+      pageSize: 0,
+      next: "",
+      previous: "",
+      results: parksRet,
+    };
+
+    res.status(200).json(response);
     debug("users collection request received");
   } catch (error) {
     error.statusCode = 404;
