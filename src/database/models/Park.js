@@ -24,6 +24,7 @@ const ParkSchema = new Schema({
   photos: { type: [String], required: true },
   location: { LocationSchema, required: true },
   characteristics: { type: [String] },
+  owner: { type: [String], required: true },
 });
 const Park = model("Park", ParkSchema, "parks");
 module.exports = Park;
