@@ -3,7 +3,16 @@ const Park = require("../../database/models/Park");
 
 const getParks = async (req, res, next) => {
   try {
-    const parks = await Park.find();
+    const page = +(req.query?.page || 0);
+    let pageSize = +(req.query?.pageSize || 10);
+    if (pageSize > 50) {
+      pageSize = 50;
+    }
+    const parks = await Park.find()
+      .limit(pageSize)
+      .skip(page * pageSize);
+
+    const total = await Park.count();
 
     const parksRet = parks.map(
       ({ _id: id, name, description, photos, location, details, owner }) => ({
@@ -18,10 +27,11 @@ const getParks = async (req, res, next) => {
     );
 
     const response = {
-      page: 0,
-      pageSize: 0,
+      page,
+      pageSize,
       next: "",
       previous: "",
+      total,
       results: parksRet,
     };
 

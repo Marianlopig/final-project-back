@@ -3,7 +3,10 @@ const { getParks } = require("./parkControllers");
 
 jest.mock("../../database/models/Park", () => ({
   findOne: jest.fn(),
-  find: jest.fn(),
+  find: jest.fn().mockReturnThis(),
+  limit: jest.fn().mockReturnThis(),
+  skip: jest.fn(),
+  count: jest.fn(),
 }));
 
 describe("Given a getParks function", () => {
@@ -13,7 +16,7 @@ describe("Given a getParks function", () => {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
-      Park.find.mockImplementation(() => [
+      Park.skip.mockImplementation(() => [
         {
           _id: "1",
           name: "Parque Bonito",
@@ -28,11 +31,14 @@ describe("Given a getParks function", () => {
         },
       ]);
 
+      Park.count.mockImplementation(() => 1);
+
       const expectedResponse = {
         page: 0,
-        pageSize: 0,
+        pageSize: 10,
         next: "",
         previous: "",
+        total: 1,
         results: [
           {
             id: "1",
@@ -50,7 +56,9 @@ describe("Given a getParks function", () => {
       };
       const expectedStatus = 200;
 
-      await getParks(null, res, null);
+      const req = { query: { page: 0, pageSize: 10 } };
+
+      await getParks(req, res, null);
 
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
       expect(res.json).toHaveBeenCalledWith(expectedResponse);
