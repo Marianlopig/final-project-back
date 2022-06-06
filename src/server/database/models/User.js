@@ -21,7 +21,6 @@ const UserSchema = new Schema({
     type: String,
   },
   favParks: [{ type: SchemaTypes.ObjectId, ref: "parks", default: [] }],
-  ownParks: [{ type: SchemaTypes.ObjectId, ref: "parks", default: [] }],
 });
 const User = model("User", UserSchema, "users");
 module.exports = User;

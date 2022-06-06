@@ -23,6 +23,8 @@ const userLogin = async (req, res, next) => {
     const userData = {
       username: user.username,
       name: user.name,
+      // eslint-disable-next-line no-underscore-dangle
+      userId: user._id,
     };
 
     const rightPassword = await bcrypt.compare(password, user.password);

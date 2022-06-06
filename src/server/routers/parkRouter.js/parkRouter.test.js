@@ -7,6 +7,13 @@ const app = require("../..");
 
 let mongoServer;
 
+jest.mock("../../middlewares/auth/auth", () => ({
+  auth: (req, res, next) => {
+    req.user = { userId: "629e80d3c876d7dca85bf196" };
+    next();
+  },
+}));
+
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   await connectDB(mongoServer.getUri());
@@ -25,6 +32,7 @@ beforeEach(async () => {
       coordinates: [4567, 5764],
     },
     details: ["aga", "bar"],
+    owner: "629e80d3c876d7dca85bf196",
   });
 });
 
