@@ -58,8 +58,10 @@ const getParks = async (req, res, next) => {
 
 const deletePark = async (req, res, next) => {
   const { id } = req.params;
+  const { userId } = req.user;
+
   try {
-    const deletedPark = await Park.findOneAndDelete({ _id: id });
+    const deletedPark = await Park.findOneAndDelete({ _id: id, owner: userId });
     if (deletedPark) {
       res.status(200).json({ msg: "Park deleted" });
     } else {
