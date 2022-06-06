@@ -1,4 +1,5 @@
 const debug = require("debug")("columpima:controllers:parkcontrollers");
+const customError = require("../../../utils/customError");
 const Park = require("../../database/models/Park");
 
 const getParks = async (req, res, next) => {
@@ -55,6 +56,22 @@ const getParks = async (req, res, next) => {
   }
 };
 
+const deletePark = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const deletedPark = await Park.findOneAndDelete({ _id: id });
+    if (deletedPark) {
+      res.status(200).json({ msg: "Park deleted" });
+    } else {
+      const error = customError(404, "Unable to delete park");
+      next(error);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getParks,
+  deletePark,
 };

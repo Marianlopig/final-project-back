@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
 const sanitize = require("mongo-sanitize");
 const User = require("../../database/models/User");
-const customError = require("../../utils/customError");
+const customError = require("../../../utils/customError");
 
 const userLogin = async (req, res, next) => {
   try {
