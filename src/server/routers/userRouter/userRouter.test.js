@@ -4,7 +4,7 @@ const { mongoose } = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = require("../../database/models/User");
 const connectDB = require("../../database");
-const app = require("../../server");
+const app = require("../..");
 
 let mongoServer;
 

@@ -2,7 +2,8 @@ require("dotenv").config();
 const debug = require("debug")("columpia:root");
 
 const chalk = require("chalk");
-const connectDB = require("./database");
+const connectDB = require("./server/database");
+
 const initializeServer = require("./server/initializeServer");
 
 const port = process.env.PORT ?? 4000;
