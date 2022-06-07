@@ -11,7 +11,7 @@ const { saveImages } = require("../../middlewares/saveImages/saveImages");
 const upload = multer({
   dest: "images/",
   limits: {
-    fileSize: 10000000,
+    fileSize: 2000000,
   },
 });
 
