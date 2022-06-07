@@ -87,7 +87,6 @@ describe("Given a POST '/' endpoint", () => {
       const requestBody = {
         name: "test park",
         description: "test desc",
-        photos: ["photo1.jpg"],
         location: {
           type: "Point",
           coordinates: [123, 456],
@@ -107,7 +106,6 @@ describe("Given a POST '/' endpoint", () => {
       expect(body.id).not.toBe(null);
       expect(body.name).toBe(requestBody.name);
       expect(body.description).toBe(requestBody.description);
-      expect(body.photos).toEqual(requestBody.photos);
       expect(body.location).toEqual(requestBody.location);
       expect(body.description).toBe(requestBody.description);
       expect(body.details).toEqual(requestBody.details);
