@@ -20,9 +20,6 @@ const ParkSchema = new Schema({
     city: {
       type: String,
     },
-    cp: {
-      type: String,
-    },
     address: {
       type: String,
     },

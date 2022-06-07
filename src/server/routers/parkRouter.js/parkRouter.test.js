@@ -95,7 +95,6 @@ describe("Given a POST '/' endpoint", () => {
         details: ["Water"],
         address: {
           city: "Barcelona",
-          cp: "1234",
           address: "Calle 134",
         },
       };
