@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const debug = require("debug")("columpima:controllers:parkcontrollers");
 const customError = require("../../../utils/customError");
 const Park = require("../../database/models/Park");
@@ -73,7 +74,23 @@ const deletePark = async (req, res, next) => {
   }
 };
 
+const createPark = async (req, res, next) => {
+  try {
+    const { userId } = req.user;
+    const park = req.body;
+    const createdPark = await Park.create({ ...park, owner: userId });
+    createdPark.id = createdPark._id;
+    delete createdPark._id;
+    delete createdPark.__v;
+
+    res.status(201).json(createdPark);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getParks,
   deletePark,
+  createPark,
 };

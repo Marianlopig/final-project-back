@@ -80,3 +80,39 @@ describe("Given a DELETE '/parks/:id' endpoint", () => {
     });
   });
 });
+
+describe("Given a POST '/' endpoint", () => {
+  describe("When it receives a request with a park in the body and an auth", () => {
+    test("Then it should create and return the created park", async () => {
+      const requestBody = {
+        name: "test park",
+        description: "test desc",
+        photos: ["photo1.jpg"],
+        location: {
+          type: "Point",
+          coordinates: [123, 456],
+        },
+        details: ["Water"],
+        address: {
+          city: "Barcelona",
+          address: "Calle 134",
+        },
+      };
+      const response = await request(app).post(`/parks/`).send(requestBody);
+      const { body } = response;
+
+      expect(response.status).toBe(201);
+
+      expect(body).not.toBe(null);
+      expect(body.id).not.toBe(null);
+      expect(body.name).toBe(requestBody.name);
+      expect(body.description).toBe(requestBody.description);
+      expect(body.photos).toEqual(requestBody.photos);
+      expect(body.location).toEqual(requestBody.location);
+      expect(body.description).toBe(requestBody.description);
+      expect(body.details).toEqual(requestBody.details);
+      expect(body.description).toBe(requestBody.description);
+      expect(body.address).toEqual(requestBody.address);
+    });
+  });
+});
