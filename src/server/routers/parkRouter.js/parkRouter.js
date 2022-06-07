@@ -2,6 +2,7 @@ const express = require("express");
 const {
   getParks,
   deletePark,
+  createPark,
 } = require("../../controllers/parkControllers/parkControllers");
 const { auth } = require("../../middlewares/auth/auth");
 
@@ -9,5 +10,6 @@ const parkRouter = express.Router();
 
 parkRouter.get("/list", getParks);
 parkRouter.delete("/:id", auth, deletePark);
+parkRouter.post("/", auth, createPark);
 
 module.exports = parkRouter;
