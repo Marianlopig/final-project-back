@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const debug = require("debug")("columpima:controllers:parkcontrollers");
+
 const customError = require("../../../utils/customError");
 const Park = require("../../database/models/Park");
 
@@ -78,6 +79,7 @@ const createPark = async (req, res, next) => {
   try {
     const { userId } = req.user;
     const park = req.body;
+    park.photos = req.imagePaths;
     const createdPark = await Park.create({ ...park, owner: userId });
     createdPark.id = createdPark._id;
     delete createdPark._id;
