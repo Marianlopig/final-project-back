@@ -8,7 +8,12 @@ const {
 const { auth } = require("../../middlewares/auth/auth");
 const { saveImages } = require("../../middlewares/saveImages/saveImages");
 
-const upload = multer({ dest: "images/" });
+const upload = multer({
+  dest: "images/",
+  limits: {
+    fileSize: 10000000,
+  },
+});
 
 const parkRouter = express.Router();
 
