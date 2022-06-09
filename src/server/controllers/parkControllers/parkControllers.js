@@ -18,11 +18,21 @@ const getParks = async (req, res, next) => {
     const total = await Park.count();
 
     const parksRet = parks.map(
-      ({ _id: id, name, description, photos, location, details, owner }) => ({
+      ({
+        _id: id,
+        name,
+        description,
+        photos,
+        photosBackup,
+        location,
+        details,
+        owner,
+      }) => ({
         id,
         name,
         description,
         photos,
+        photosBackup,
         location,
         details,
         owner,
