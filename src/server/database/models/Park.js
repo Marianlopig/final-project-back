@@ -4,6 +4,7 @@ const ParkSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
   photos: { type: [String], required: true },
+  photosBackup: { type: [String], required: true },
   location: {
     type: {
       type: String,
