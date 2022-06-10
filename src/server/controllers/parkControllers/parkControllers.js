@@ -27,6 +27,7 @@ const getParks = async (req, res, next) => {
         location,
         details,
         owner,
+        address,
       }) => ({
         id,
         name,
@@ -36,6 +37,7 @@ const getParks = async (req, res, next) => {
         location,
         details,
         owner,
+        address,
       })
     );
     const domainUrl = process.env.DOMAIN_URL;
