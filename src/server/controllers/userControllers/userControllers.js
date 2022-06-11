@@ -65,6 +65,7 @@ const userRegister = async (req, res, next) => {
       password: encryptedPassword,
       city,
       email,
+      favParks: [],
     };
 
     await User.create(newUser);
