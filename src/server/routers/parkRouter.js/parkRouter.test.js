@@ -37,6 +37,21 @@ beforeEach(async () => {
       city: "Barcelona",
     },
   });
+
+  await Park.create({
+    name: "parque feo",
+    description: "un parque muy bonito",
+    photos: ["photo1.png", "photo2.png"],
+    location: {
+      type: "Point",
+      coordinates: [4567, 5764],
+    },
+    details: ["aga", "bar"],
+    owner: "629e80d3c876d7dca85bf196",
+    address: {
+      city: "Sevilla",
+    },
+  });
 });
 
 afterEach(async () => {
@@ -53,7 +68,7 @@ describe("Given a get /parks/list endpoint", () => {
     test("Then it should respond with a 200 status code and a list of parks", async () => {
       const response = await request(app).get("/parks/list").expect(200);
       expect(response.body).not.toBeNull();
-      expect(response.body.results.length).toBe(1);
+      expect(response.body.results.length).toBe(2);
     });
   });
   describe("When it receives a request with filters", () => {
