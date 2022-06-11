@@ -33,6 +33,9 @@ beforeEach(async () => {
     },
     details: ["aga", "bar"],
     owner: "629e80d3c876d7dca85bf196",
+    address: {
+      city: "Barcelona",
+    },
   });
 });
 
@@ -49,6 +52,18 @@ describe("Given a get /parks/list endpoint", () => {
   describe("When it receives a request", () => {
     test("Then it should respond with a 200 status code and a list of parks", async () => {
       const response = await request(app).get("/parks/list").expect(200);
+      expect(response.body).not.toBeNull();
+      expect(response.body.results.length).toBe(1);
+    });
+  });
+  describe("When it receives a request with filters", () => {
+    test("Then it should return the matching results with the filters", async () => {
+      const response = await request(app)
+        .get(
+          `/parks/list?ids=${id}&city=Barcelona&owner=629e80d3c876d7dca85bf196`
+        )
+        .expect(200);
+
       expect(response.body).not.toBeNull();
       expect(response.body.results.length).toBe(1);
     });
