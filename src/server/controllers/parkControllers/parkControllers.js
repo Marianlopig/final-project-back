@@ -12,18 +12,22 @@ const getParks = async (req, res, next) => {
       pageSize = 50;
     }
 
+    let queryNextPrev = "";
     const filter = {};
     if (req.query?.owner) {
       filter.owner = req.query.owner;
+      queryNextPrev += `owner=${req.query.owner}`;
     }
     if (req.query?.city) {
       filter["address.city"] = {
         $regex: `^${req.query.city}$`,
         $options: "i",
       };
+      queryNextPrev += `city=${req.query.city}`;
     }
     if (req.query?.ids) {
       filter._id = { $in: req.query.ids.split(",") };
+      queryNextPrev += `ids=${req.query.ids}`;
     }
 
     const parks = await Park.find(filter)
@@ -57,14 +61,18 @@ const getParks = async (req, res, next) => {
     );
     const domainUrl = process.env.DOMAIN_URL;
 
-    let nextPage = `${domainUrl}?page=${page + 1}&pageSize=${pageSize}`;
+    let nextPage = `${domainUrl}?page=${
+      page + 1
+    }&pageSize=${pageSize}&${queryNextPrev}`;
     if (page >= Math.trunc(total / pageSize)) {
       nextPage = undefined;
     }
 
     let prevPage;
     if (page > 0) {
-      prevPage = `${domainUrl}?page=${page - 1}&pageSize=${pageSize}`;
+      prevPage = `${domainUrl}?page=${
+        page - 1
+      }&pageSize=${pageSize}&${queryNextPrev}`;
     }
 
     const response = {
