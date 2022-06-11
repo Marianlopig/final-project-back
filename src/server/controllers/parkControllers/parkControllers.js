@@ -11,11 +11,26 @@ const getParks = async (req, res, next) => {
     if (pageSize > 50) {
       pageSize = 50;
     }
-    const parks = await Park.find()
+
+    const filter = {};
+    if (req.query?.owner) {
+      filter.owner = req.query.owner;
+    }
+    if (req.query?.city) {
+      filter["address.city"] = {
+        $regex: `^${req.query.city}$`,
+        $options: "i",
+      };
+    }
+    if (req.query?.ids) {
+      filter._id = { $in: req.query.ids.split(",") };
+    }
+
+    const parks = await Park.find(filter)
       .limit(pageSize)
       .skip(page * pageSize);
 
-    const total = await Park.count();
+    const total = await Park.count(filter);
 
     const parksRet = parks.map(
       ({
@@ -62,8 +77,8 @@ const getParks = async (req, res, next) => {
     };
 
     res.status(200).json(response);
-    debug("users collection request received");
   } catch (error) {
+    debug(error);
     error.statusCode = 404;
     error.customMessage = "Not found";
     next(error);
