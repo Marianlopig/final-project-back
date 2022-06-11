@@ -8,6 +8,13 @@ const app = require("../..");
 
 let mongoServer;
 
+jest.mock("../../middlewares/auth/auth", () => ({
+  auth: (req, res, next) => {
+    req.user = { userId: "629e80d3c876d7dca85bf196" };
+    next();
+  },
+}));
+
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   await connectDB(mongoServer.getUri());
@@ -16,9 +23,12 @@ beforeAll(async () => {
 beforeEach(async () => {
   const encryptedPassword = await bcrypt.hash("password", 10);
   await User.create({
+    _id: "629e80d3c876d7dca85bf196",
     username: "Marian",
     password: encryptedPassword,
     email: "email",
+    name: "Marian",
+    favParks: [mongoose.Types.ObjectId()],
   });
 });
 
@@ -75,6 +85,21 @@ describe("Given a post /users/register endpoint", () => {
 
       expect(response.body.error).toBe(true);
       expect(response.body.message).toBe("This user already exists...");
+    });
+  });
+});
+
+describe("Given an account router", () => {
+  describe("When it is requested by a user", () => {
+    test("Then it should return the user without pasword", async () => {
+      const { body } = await request(app).get("/users/account").expect(200);
+
+      expect(body.id).toBe("629e80d3c876d7dca85bf196");
+      expect(body.password).toBe(undefined);
+      expect(body.username).toBe("Marian");
+      expect(body.email).toBe("email");
+      expect(body.name).toBe("Marian");
+      expect(body.favParks.length).toBe(1);
     });
   });
 });
