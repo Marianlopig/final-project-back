@@ -77,7 +77,21 @@ const userRegister = async (req, res, next) => {
   }
 };
 
+const userAccount = async (req, res, next) => {
+  try {
+    const { userId } = req.user;
+
+    const { password, __v, _id, ...user } = await User.findById(userId).lean();
+
+    res.status(200).json({ ...user, id: userId });
+  } catch (e) {
+    const error = customError(500, "Internal server error", e.message);
+    next(error);
+  }
+};
+
 module.exports = {
   userRegister,
   userLogin,
+  userAccount,
 };
