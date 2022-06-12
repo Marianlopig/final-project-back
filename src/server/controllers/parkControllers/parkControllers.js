@@ -127,8 +127,25 @@ const createPark = async (req, res, next) => {
   }
 };
 
+const getPark = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const { _id, __v, ...park } = await Park.findOne({ _id: id }).lean();
+    if (park) {
+      res.status(200).json({ park, id });
+    } else {
+      const error = customError(404, "Unable to find park");
+      next(error);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getParks,
   deletePark,
   createPark,
+  getPark,
 };
