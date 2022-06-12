@@ -4,6 +4,7 @@ const {
   getParks,
   deletePark,
   createPark,
+  getPark,
 } = require("../../controllers/parkControllers/parkControllers");
 const { auth } = require("../../middlewares/auth/auth");
 const firebaseImageStore = require("../../middlewares/firebaseImage/firebaseImage");
@@ -28,5 +29,6 @@ parkRouter.post(
   firebaseImageStore,
   createPark
 );
+parkRouter.get("/:id", getPark);
 
 module.exports = parkRouter;
