@@ -19,7 +19,7 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   await connectDB(mongoServer.getUri());
 });
-
+const favId = mongoose.Types.ObjectId();
 beforeEach(async () => {
   const encryptedPassword = await bcrypt.hash("password", 10);
   await User.create({
@@ -28,7 +28,7 @@ beforeEach(async () => {
     password: encryptedPassword,
     email: "email",
     name: "Marian",
-    favParks: [mongoose.Types.ObjectId()],
+    favParks: [favId],
   });
 });
 
@@ -100,6 +100,38 @@ describe("Given an account router", () => {
       expect(body.email).toBe("email");
       expect(body.name).toBe("Marian");
       expect(body.favParks.length).toBe(1);
+    });
+  });
+});
+
+describe("Given a favourites router", () => {
+  describe("When it is requested to add a favourite", () => {
+    test.only("Then it should return the user with the favourites array including the added", async () => {
+      const { body } = await request(app)
+        .put("/users/addfavourite")
+        .send({ id: "62a5bbce7924b2042e05dd19" })
+        .expect(200);
+      expect(body.id).toBe("629e80d3c876d7dca85bf196");
+      expect(body.password).toBe(undefined);
+      expect(body.username).toBe("Marian");
+      expect(body.email).toBe("email");
+      expect(body.name).toBe("Marian");
+      expect(body.favParks.length).toBe(2);
+    });
+  });
+
+  describe("When it is requested to delete a favourite", () => {
+    test.only("Then it should return the user with the favourites array without the deleted", async () => {
+      const { body } = await request(app)
+        .put("/users/deletefavourite")
+        .send({ id: favId })
+        .expect(200);
+      expect(body.id).toBe("629e80d3c876d7dca85bf196");
+      expect(body.password).toBe(undefined);
+      expect(body.username).toBe("Marian");
+      expect(body.email).toBe("email");
+      expect(body.name).toBe("Marian");
+      expect(body.favParks.length).toBe(0);
     });
   });
 });

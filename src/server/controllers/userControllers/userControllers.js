@@ -95,7 +95,7 @@ const userAddFavourite = async (req, res, next) => {
   try {
     const { userId } = req.user;
 
-    const user = await User.findByIdAndUpdate(
+    const { password, __v, _id, ...user } = await User.findByIdAndUpdate(
       userId,
       {
         $push: { favParks: req.body.id },
@@ -104,7 +104,7 @@ const userAddFavourite = async (req, res, next) => {
         returnOriginal: false,
       }
     ).lean();
-    res.status(200).json(user);
+    res.status(200).json({ ...user, id: userId });
   } catch (e) {
     const error = customError(500, "Internal server error", e.message);
     next(error);
@@ -115,7 +115,7 @@ const userDeleteFavourite = async (req, res, next) => {
   try {
     const { userId } = req.user;
 
-    const user = await User.findByIdAndUpdate(
+    const { password, __v, _id, ...user } = await User.findByIdAndUpdate(
       userId,
       {
         $pull: { favParks: req.body.id },
@@ -124,7 +124,7 @@ const userDeleteFavourite = async (req, res, next) => {
         returnOriginal: false,
       }
     ).lean();
-    res.status(200).json(user);
+    res.status(200).json({ ...user, id: userId });
   } catch (e) {
     const error = customError(500, "Internal server error", e.message);
     next(error);
