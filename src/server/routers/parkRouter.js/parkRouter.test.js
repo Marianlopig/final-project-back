@@ -19,7 +19,7 @@ beforeAll(async () => {
   await connectDB(mongoServer.getUri());
 });
 
-const id = mongoose.Types.ObjectId();
+const id = "62a66dd34bb37ed0c4858795";
 
 beforeEach(async () => {
   await Park.create({
@@ -141,6 +141,49 @@ describe("Given a POST '/' endpoint", () => {
       expect(body.details).toEqual(requestBody.details);
       expect(body.description).toBe(requestBody.description);
       expect(body.address).toEqual(requestBody.address);
+    });
+  });
+});
+
+describe("Given a GET BY ID PARK '/parks/:id' endpoint", () => {
+  describe("When in recieves a request with an Id and the resource it's found on the server", () => {
+    test("Then it should respond with status 200 and a json with the park info", async () => {
+      const expectedJson = {
+        id: "62a66dd34bb37ed0c4858795",
+        name: "parque bonito",
+        description: "un parque muy bonito",
+        photos: ["photo1.png", "photo2.png"],
+        photosBackup: [],
+        location: {
+          type: "Point",
+          coordinates: [4567, 5764],
+        },
+        details: ["aga", "bar"],
+        owner: "629e80d3c876d7dca85bf196",
+        address: {
+          city: "Barcelona",
+        },
+      };
+
+      const { body } = await request(app)
+        .get(`/parks/62a66dd34bb37ed0c4858795`)
+        .expect(200);
+
+      expect(body).toEqual(expectedJson);
+    });
+  });
+
+  describe("When it recieves a request without a parkId", () => {
+    test("Then it should respond with status 404", async () => {
+      const expectedJson = { error: true, message: "Unable to find the park" };
+
+      const nonExistingId = "62a66dd34bb37ed0c4858794";
+
+      const { body } = await request(app)
+        .get(`/parks/${nonExistingId}`)
+        .expect(404);
+
+      expect(body).toEqual(expectedJson);
     });
   });
 });
