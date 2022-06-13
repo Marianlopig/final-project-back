@@ -144,9 +144,34 @@ const getPark = async (req, res, next) => {
   }
 };
 
+const editPark = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.user;
+    const park = req.body;
+    if (req.imagePaths && req.imagePaths[0]) {
+      park.photos = req.imagePaths;
+      park.photosBackup = req.imageBackupPath;
+    }
+
+    const update = { ...park, owner: userId };
+
+    const { _id, __v, ...updatedPark } = await Park.findOneAndUpdate(
+      { _id: id, owner: userId },
+      update,
+      { returnOriginal: false }
+    ).lean();
+
+    res.status(200).json({ ...updatedPark, id });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getParks,
   deletePark,
   createPark,
   getPark,
+  editPark,
 };
