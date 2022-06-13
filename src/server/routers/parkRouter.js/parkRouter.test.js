@@ -187,3 +187,40 @@ describe("Given a GET BY ID PARK '/parks/:id' endpoint", () => {
     });
   });
 });
+
+describe("Given an edit park endpoint", () => {
+  describe("When it is requested with a park", () => {
+    test.only("Then it should updates the park with new data", async () => {
+      const expected = {
+        id,
+        name: "parque muy bonito",
+        description: "un parque muy bonito",
+        photos: ["photo1.png", "photo2.png"],
+        photosBackup: [],
+        location: {
+          type: "Point",
+          coordinates: [4567, 5764],
+        },
+        details: ["aga", "bar"],
+        owner: "629e80d3c876d7dca85bf196",
+        address: {
+          city: "Sevilla",
+          address: "123 super calle",
+        },
+      };
+
+      const { body } = await request(app)
+        .put(`/parks/${id}`)
+        .send({
+          name: "parque muy bonito",
+          address: {
+            city: "Sevilla",
+            address: "123 super calle",
+          },
+        })
+        .expect(200);
+
+      expect(body).toEqual(expected);
+    });
+  });
+});
