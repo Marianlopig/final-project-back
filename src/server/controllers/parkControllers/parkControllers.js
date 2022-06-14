@@ -61,7 +61,7 @@ const getParks = async (req, res, next) => {
     );
     const domainUrl = process.env.DOMAIN_URL;
 
-    let nextPage = `${domainUrl}?page=${
+    let nextPage = `${domainUrl}/parks/?page=${
       page + 1
     }&pageSize=${pageSize}&${queryNextPrev}`;
     if (page >= Math.trunc(total / pageSize)) {
@@ -70,7 +70,7 @@ const getParks = async (req, res, next) => {
 
     let prevPage;
     if (page > 0) {
-      prevPage = `${domainUrl}?page=${
+      prevPage = `${domainUrl}/parks/?page=${
         page - 1
       }&pageSize=${pageSize}&${queryNextPrev}`;
     }
