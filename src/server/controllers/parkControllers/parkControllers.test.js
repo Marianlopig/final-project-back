@@ -4,6 +4,7 @@ const { getParks } = require("./parkControllers");
 jest.mock("../../database/models/Park", () => ({
   findOne: jest.fn(),
   find: jest.fn().mockReturnThis(),
+  sort: jest.fn().mockReturnThis(),
   limit: jest.fn().mockReturnThis(),
   skip: jest.fn(),
   count: jest.fn(),

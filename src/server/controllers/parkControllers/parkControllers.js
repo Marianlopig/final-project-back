@@ -31,6 +31,7 @@ const getParks = async (req, res, next) => {
     }
 
     const parks = await Park.find(filter)
+      .sort({ _id: -1 })
       .limit(pageSize)
       .skip(page * pageSize);
 
@@ -61,7 +62,7 @@ const getParks = async (req, res, next) => {
     );
     const domainUrl = process.env.DOMAIN_URL;
 
-    let nextPage = `${domainUrl}/parks/?page=${
+    let nextPage = `${domainUrl}/parks/list?page=${
       page + 1
     }&pageSize=${pageSize}&${queryNextPrev}`;
     if (page >= Math.trunc(total / pageSize)) {
@@ -70,7 +71,7 @@ const getParks = async (req, res, next) => {
 
     let prevPage;
     if (page > 0) {
-      prevPage = `${domainUrl}/parks/?page=${
+      prevPage = `${domainUrl}/parks/list?page=${
         page - 1
       }&pageSize=${pageSize}&${queryNextPrev}`;
     }
