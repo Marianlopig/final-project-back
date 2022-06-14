@@ -106,7 +106,7 @@ describe("Given an account router", () => {
 
 describe("Given a favourites router", () => {
   describe("When it is requested to add a favourite", () => {
-    test.only("Then it should return the user with the favourites array including the added", async () => {
+    test("Then it should return the user with the favourites array including the added", async () => {
       const { body } = await request(app)
         .put("/users/addfavourite")
         .send({ id: "62a5bbce7924b2042e05dd19" })
@@ -121,7 +121,7 @@ describe("Given a favourites router", () => {
   });
 
   describe("When it is requested to delete a favourite", () => {
-    test.only("Then it should return the user with the favourites array without the deleted", async () => {
+    test("Then it should return the user with the favourites array without the deleted", async () => {
       const { body } = await request(app)
         .put("/users/deletefavourite")
         .send({ id: favId })

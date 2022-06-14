@@ -190,7 +190,7 @@ describe("Given a GET BY ID PARK '/parks/:id' endpoint", () => {
 
 describe("Given an edit park endpoint", () => {
   describe("When it is requested with a park", () => {
-    test.only("Then it should updates the park with new data", async () => {
+    test("Then it should updates the park with new data", async () => {
       const expected = {
         id,
         name: "parque muy bonito",
