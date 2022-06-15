@@ -42,8 +42,7 @@ const userLogin = async (req, res, next) => {
 
     res.status(200).json({ token });
   } catch (e) {
-    const error = customError(500, "Internal server error", e.message);
-    next(error);
+    next(customError(500, "Internal server error", e.message));
   }
 };
 
@@ -72,9 +71,7 @@ const userRegister = async (req, res, next) => {
 
     res.status(201).json({ username });
   } catch (error) {
-    const createdError = customError(400, "Wrong user data..", error.message);
-
-    next(createdError);
+    next(customError(400, "Wrong user data..", error.message));
   }
 };
 
@@ -86,8 +83,7 @@ const userAccount = async (req, res, next) => {
 
     res.status(200).json({ ...user, id: userId });
   } catch (e) {
-    const error = customError(500, "Internal server error", e.message);
-    next(error);
+    next(customError(500, "Internal server error", e.message));
   }
 };
 
@@ -106,8 +102,7 @@ const userAddFavourite = async (req, res, next) => {
     ).lean();
     res.status(200).json({ ...user, id: userId });
   } catch (e) {
-    const error = customError(500, "Internal server error", e.message);
-    next(error);
+    next(customError(500, "Internal server error", e.message));
   }
 };
 
@@ -126,8 +121,7 @@ const userDeleteFavourite = async (req, res, next) => {
     ).lean();
     res.status(200).json({ ...user, id: userId });
   } catch (e) {
-    const error = customError(500, "Internal server error", e.message);
-    next(error);
+    next(customError(500, "Internal server error", e.message));
   }
 };
 

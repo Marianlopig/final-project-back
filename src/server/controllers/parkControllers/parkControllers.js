@@ -1,6 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-const debug = require("debug")("columpia:controllers:parkcontrollers");
-
 const customError = require("../../../utils/customError");
 const Park = require("../../database/models/Park");
 
@@ -87,10 +85,7 @@ const getParks = async (req, res, next) => {
 
     res.status(200).json(response);
   } catch (error) {
-    debug(error);
-    error.statusCode = 404;
-    error.customMessage = "Not found";
-    next(error);
+    next(customError(404, "Not found"));
   }
 };
 
@@ -103,8 +98,7 @@ const deletePark = async (req, res, next) => {
     if (deletedPark) {
       res.status(200).json({ msg: "Park deleted" });
     } else {
-      const error = customError(404, "Unable to delete park");
-      next(error);
+      next(customError(404, "Unable to delete park"));
     }
   } catch (error) {
     next(error);
@@ -137,8 +131,7 @@ const getPark = async (req, res, next) => {
       const { _id, __v, ...park } = foundPark;
       res.status(200).json({ ...park, id: _id });
     } else {
-      const error = customError(404, "Unable to find the park");
-      next(error);
+      next(customError(404, "Unable to find the park"));
     }
   } catch (error) {
     next(error);
