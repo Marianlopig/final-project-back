@@ -1,6 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-const debug = require("debug")("columpia:controllers:parkcontrollers");
-
 const customError = require("../../../utils/customError");
 const Park = require("../../database/models/Park");
 
