@@ -11,9 +11,9 @@ const path = require("path");
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
-  authDomain: "columpiamarian.firebaseapp.com",
-  projectId: "columpiamarian",
-  storageBucket: "columpiamarian.appspot.com",
+  authDomain: "marian-columpia.firebaseapp.com",
+  projectId: "marian-columpia",
+  storageBucket: "marian-columpia.appspot.com",
   messagingSenderId: process.env.FIREBASE_MESSAGINGSENDERID,
   appId: process.env.FIREBASE_APPID,
 };
