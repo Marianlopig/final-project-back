@@ -131,7 +131,7 @@ const getPark = async (req, res, next) => {
       const { _id, __v, ...park } = foundPark;
       res.status(200).json({ ...park, id: _id });
     } else {
-      next(customError(404, "Unable to find the park"));
+      next(customError(404, "Unable to find this park"));
     }
   } catch (error) {
     next(error);
